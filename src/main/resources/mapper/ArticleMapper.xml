@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.shukai.dao.ArticleDao">
+    <resultMap type="cn.shukai.pojo.article" id="findArticleById" >
+        <id property="article_id" column="article_id"/>
+        <result property="article_name" column="article_name"/>
+        <result property="article_time" column="article_time"/>
+        <result property="article_click" column="article_click"/>
+        <result property="sort_article" column="sort_article"/>
+        <result property="user_id" column="user_id"/>
+        <result property="type_id" column="type_id"/>
+        <result property="article_content" column="article_content"/>
+    </resultMap>
+
+    <select id="findArticleById" parameterType="int" resultMap="findArticleById">
+        SELECT * from article where article_id=#{id}
+    </select>
+
+
+    <!--  <insert id="addPaper" parameterType="Paper">
+          INSERT INTO paper(paper_id,name,number,detail) VALUE (#{paperId},#{paperName}, #{paperNum}, #{paperDetail})
+      </insert>
+
+      <delete id="deletePaperById" parameterType="long">
+          DELETE FROM paper WHERE paper_id=#{paperID}
+      </delete>
+
+      <update id="updatePaper" parameterType="Paper">
+          UPDATE paper SET NAME = #{paperName},NUMBER = #{paperNum},detail = #{paperDetail} WHERE  paper_id = #{paperId}
+      </update>-->
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.shukai.dao.CommentDao">
+    <insert id="addComment" parameterType="cn.shukai.pojo.Comment">
+        insert into comment(comment_type,comment_content,comment_from_uid,comment_time) VALUES
+        (#{comment_type},#{comment_content},#{comment_from_uid},#{comment_time})
+    </insert>
+
+    <insert id="addReplyComment" parameterType="cn.shukai.pojo.ReplyComment">
+        insert into replyComment(replyComment_parentid,replyComment_content,replyComment_from_uid,replyComment_from_name,replyCommentt_to_uid,replyComment_to_name)
+        values(#{replyComment_parentid},#{replyComment_content},#{replyComment_from_uid},#{replyComment_from_name},#{replyCommentt_to_uid},#{replyComment_to_name})
+    </insert>
+
+    <resultMap id="findComment" type="cn.shukai.pojo.Comment">
+        <id property="comment_id" column="comment_id"/>
+        <result property="comment_type" column="comment_type" />
+        <result property="comment_content" column="comment_content"/>
+        <result property="comment_from_uid" column="comment_from_uid"/>
+        <result property="comment_time" column="comment_time"/>
+        <association property="user" javaType="cn.shukai.pojo.User">
+            <id property="user_id" column="user_id"/>
+            <result property="username" column="username"/>
+            <result property="password"  column="password"/>
+        </association>
+    </resultMap>
+    <select id="findComment" resultMap="findComment">
+         select c.*,u.* from comment c,user u where c.comment_from_uid = u.user_id
+    </select>
+
+    <resultMap id="findReplyComment" type="cn.shukai.pojo.ReplyComment">
+        <id property="replyComment_id" column="replyComment_id"/>
+        <result property="replyComment_content" column="replyComment_content" />
+        <result property="replyComment_parentid" column="replyComment_parentid"/>
+        <result property="replyComment_from_uid" column="replyComment_from_uid"/>
+        <result property="replyComment_from_name" column="replyComment_from_name"/>
+        <result property="replyCommentt_to_uid" column="replyCommentt_to_uid"/>
+        <result property="replyComment_to_name" column="replyComment_to_name"/>
+    </resultMap>
+    <select id="findReplyComment" resultMap="findReplyComment">
+        select * from replyComment
+    </select>
+</mapper>
